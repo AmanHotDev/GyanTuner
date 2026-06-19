@@ -4,13 +4,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>GyanTuner - Ultimate Learning Hub 🧠</title>
-    <script src="https://unpkg.com/@rive-app/canvas@2.7.0"></script>
     <style>
         /* ================= PREMIUM MODERN CORE STYLES ================= */
         * {
             margin: 0; padding: 0; box-sizing: border-box;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             scroll-behavior: smooth;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            text-rendering: optimizeLegibility;
         }
 
         body {
@@ -40,15 +42,24 @@
         .btn-register { background: #2563eb; color: white; border: none; padding: 10px 24px; border-radius: 50px; font-weight: 600; cursor: pointer; box-shadow: 0 4px 12px rgba(37, 99, 235, 0.2); transition: 0.2s; }
         .btn-register:hover { background: #1d4ed8; transform: translateY(-1px); }
 
-        /* 🚀 HERO SECTION (Full Viewport Height Vibe) */
+        /* 📲 FLIPKART STYLE PWA INSTALL FLOATING ACTION BUTTON */
+        .btn-install-app {
+            background: #10b981; color: white; border: none; padding: 10px 24px; 
+            border-radius: 50px; font-weight: 700; font-size: 0.95rem; cursor: pointer; 
+            box-shadow: 0 6px 20px rgba(16, 185, 129, 0.3); transition: all 0.2s ease;
+            display: none; align-items: center; gap: 8px;
+        }
+        .btn-install-app:hover { background: #059669; transform: translateY(-1px); }
+
+        /* 🚀 HERO SECTION (Mobile Responsive Grid Optimized) */
         .hero-section {
             min-height: calc(100vh - 72px); display: flex; align-items: center;
-            justify-content: space-between; padding: 0 8%;
+            justify-content: space-between; padding: 40px 8%;
             background: radial-gradient(circle at top right, #eff6ff 0%, #f8fafc 100%);
-            position: relative;
+            position: relative; flex-wrap: wrap; gap: 40px;
         }
 
-        .hero-left { max-width: 55%; text-align: left; }
+        .hero-left { flex: 1; min-width: 320px; text-align: left; }
         .hero-badge { display: inline-block; background: #dbeafe; color: #1e40af; padding: 6px 16px; border-radius: 50px; font-size: 0.85rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 20px; }
         .hero-title { font-size: 3.8rem; font-weight: 800; color: #0f172a; line-height: 1.1; }
         .hero-title span { color: #2563eb; }
@@ -58,90 +69,81 @@
         .btn-primary-cta { background: #2563eb; color: white; border: none; padding: 16px 40px; border-radius: 50px; font-size: 1.1rem; font-weight: 600; cursor: pointer; box-shadow: 0 8px 25px rgba(37, 99, 235, 0.3); transition: 0.2s; }
         .btn-primary-cta:hover { background: #1d4ed8; transform: translateY(-2px); box-shadow: 0 12px 30px rgba(37, 99, 235, 0.4); }
 
-        /* 🤖 RIVE CONTAINER CONTAINER WITH FALLBACK BOUNCE */
+        /* 🤖 RIGHT SIDE GRID: CUSTOM ANIME AVATAR CORE STYLES */
         .hero-right { 
-            width: 40%; height: 450px; 
+            flex: 0.8; min-width: 320px; height: 450px; 
             display: flex; justify-content: center; align-items: center; 
             position: relative; 
         }
-        
-        #riveCanvas { 
-            width: 100%; height: 100%; 
-            min-width: 400px; cursor: pointer;
-            position: absolute; z-index: 2;
-        }
 
-        /* 👾 ULTRA HIGH-FIDELITY BACKUP DYNAMIC INTERACTIVE AVATAR */
-        .fallback-avatar-wrapper {
-            width: 260px; height: 320px;
-            background: transparent;
-            position: relative;
+        /* 👾 ULTRA PREMIUM LIVE ENGINE AVATAR (Pure CSS & Native JS Math Tracking) */
+        .live-custom-avatar-shell {
+            width: 240px; height: 300px;
             display: flex; flex-direction: column; align-items: center; justify-content: flex-end;
-            animation: modernKidsOctoBounce 3.2s ease-in-out infinite;
+            position: relative; z-index: 5;
+            animation: characterBreathingMicroJump 3.5s ease-in-out infinite;
         }
 
-        @keyframes modernKidsOctoBounce {
-            0% { transform: translateY(0) scale(1); }
-            45% { transform: translateY(-16px) scaleX(0.98) scaleY(1.04); }
-            50% { transform: translateY(-18px) scaleX(0.97) scaleY(1.05); }
-            55% { transform: translateY(-16px) scaleX(0.98) scaleY(1.04); }
-            100% { transform: translateY(0) scale(1); }
+        @keyframes characterBreathingMicroJump {
+            0%, 100% { transform: translateY(0px) scaleX(1) scaleY(1); }
+            50% { transform: translateY(-14px) scaleX(0.98) scaleY(1.03); }
         }
 
-        .avatar-body-mesh {
-            width: 180px; height: 180px;
-            background: linear-gradient(135deg, #2563eb, #1d4ed8);
-            border-radius: 50% 50% 45% 45%;
-            position: relative;
-            box-shadow: 0 15px 35px rgba(37, 99, 235, 0.25);
-            display: flex; justify-content: center; align-items: center;
+        .mesh-body-base { 
+            width: 170px; height: 180px; 
+            background: linear-gradient(135deg, #1e3a8a, #111827); 
+            border-radius: 55% 55% 45% 45%; 
+            position: relative; 
+            display: flex; justify-content: center; align-items: center; 
+            box-shadow: 0 20px 45px rgba(30, 58, 138, 0.25); 
         }
 
-        .avatar-face-eyes-layer {
-            display: flex; gap: 24px; position: absolute; top: 60px; transition: 0.05s ease-out;
+        .mesh-face-eyes { 
+            display: flex; gap: 24px; position: absolute; top: 55px; left: 38px;
+            transition: all 0.08s ease-out;
         }
 
-        .eye-socket-orbit {
-            width: 42px; height: 42px; background: white; border-radius: 50%;
-            display: flex; justify-content: center; align-items: center; position: relative;
-            box-shadow: inset 0 2px 5px rgba(0,0,0,0.1);
+        .socket-orbit-circle { 
+            width: 44px; height: 44px; background: #ffffff; border-radius: 50%; 
+            display: flex; justify-content: center; align-items: center; position: relative; 
+            box-shadow: inset 0 2px 8px rgba(0,0,0,0.15);
         }
 
-        .eye-pupil-dot {
-            width: 18px; height: 48px; max-height: 18px; background: #0f172a; border-radius: 50%;
-            position: absolute; transition: all 0.02s linear;
+        .pupil-dark-dot { 
+            width: 20px; height: 20px; background: #0f172a; border-radius: 50%; 
+            position: absolute; display: flex; justify-content: center; align-items: center;
+            transition: transform 0.01s linear;
         }
 
-        .eye-pupil-dot::after {
-            content: ''; position: absolute; top: 3px; left: 3px; width: 5px; height: 5px; background: white; border-radius: 50%;
+        .pupil-dark-dot::after { 
+            content: ''; position: absolute; top: 3px; left: 3px; 
+            width: 5px; height: 5px; background: #ffffff; border-radius: 50%; 
         }
 
-        .tentacles-dock { display: flex; gap: 8px; margin-top: -5px; z-index: -1; }
-        .tentacle-leg {
-            width: 22px; height: 45px; background: #1d4ed8; border-radius: 0 0 15px 115px;
-            animation: legWiggle 1.6s ease-in-out infinite alternate; transform-origin: top center;
+        .tentacles-dock { display: flex; gap: 8px; margin-top: -6px; z-index: -1; }
+        .tentacle-leg { 
+            width: 22px; height: 45px; background: #1e3a8a; 
+            border-radius: 0 0 15px 15px; 
+            animation: legWiggleMove 1.8s ease-in-out infinite alternate;
+            transform-origin: top center;
         }
-        .tentacle-leg:nth-child(2) { animation-delay: 0.3s; background: #2563eb; }
-        .tentacle-leg:nth-child(3) { animation-delay: 0.6s; }
+        .tentacle-leg:nth-child(2) { animation-delay: 0.3s; background: #111827; }
+        .tentacle-leg:nth-child(3) { animation-delay: 0.6s; background: #1e3a8a; }
 
-        @keyframes legWiggle {
-            0% { transform: rotate(-5deg); }
-            100% { transform: rotate(15deg); }
+        @keyframes legWiggleMove {
+            0% { transform: rotate(-8deg) translateY(0); }
+            100% { transform: rotate(12deg) translateY(-2px); }
         }
 
         /* ================= SCROLL REVEALED FEATURES SECTION ================= */
-        .section-container {
-            padding: 100px 8%; text-align: center; background: #ffffff;
-        }
+        .section-container { padding: 100px 8%; text-align: center; background: #ffffff; }
         .section-container:nth-child(even) { background: #f8fafc; }
 
         .section-header { max-width: 700px; margin: 0 auto 60px auto; }
         .section-header h2 { font-size: 2.6rem; color: #0f172a; font-weight: 800; margin-bottom: 15px; }
         .section-header p { color: #64748b; font-size: 1.1rem; line-height: 1.5; }
 
-        .features-grid {
-            display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 40px;
-        }
+        .features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 40px; }
 
         .reveal-card {
             background: #ffffff; padding: 40px 30px; border-radius: 24px;
@@ -157,18 +159,29 @@
         .feat-title { font-size: 1.4rem; font-weight: 700; color: #0f172a; margin-bottom: 12px; }
         .feat-desc { color: #64748b; font-size: 0.95rem; line-height: 1.6; }
 
-        .about-flex { display: flex; align-items: center; justify-content: space-between; gap: 60px; text-align: left; }
-        .about-left { max-width: 50%; opacity: 0; transform: translateX(-50px); transition: all 0.8s ease; }
+        .about-flex { display: flex; align-items: center; justify-content: space-between; gap: 60px; text-align: left; flex-wrap: wrap; }
+        .about-left { flex: 1; min-width: 300px; opacity: 0; transform: translateX(-50px); transition: all 0.8s ease; }
         .about-left.is-visible { opacity: 1; transform: translateX(0); }
-        .about-right { max-width: 45%; opacity: 0; transform: translateX(50px); transition: all 0.8s ease; }
+        .about-right { flex: 1; min-width: 300px; opacity: 0; transform: translateX(50px); transition: all 0.8s ease; background: #eff6ff; padding: 40px; border-radius: 24px; border: 2px dashed #bfdbfe; }
         .about-right.is-visible { opacity: 1; transform: translateX(0); }
 
         footer { width: 100%; text-align: center; padding: 30px; color: #94a3b8; font-size: 0.95rem; border-top: 1px solid #e2e8f0; background: #ffffff; }
+
+        /* ================= 📱 RESPONSIVE MEDIA QUERY VIEWPORTS PANEL ================= */
+        @media (max-width: 768px) {
+            .navbar { padding: 15px 6%; }
+            .nav-links { display: none; }
+            .hero-section { padding: 30px 6%; text-align: center; justify-content: center; }
+            .hero-left { text-align: center; }
+            .hero-title { font-size: 2.6rem; }
+            .hero-cta-group { justify-content: center; }
+            .hero-right { height: 350px; width: 100%; }
+            .about-flex { gap: 30px; }
+        }
     </style>
 </head>
 <body>
 
-    <!-- NAVBAR HEADER -->
     <nav class="navbar">
         <div class="nav-logo-box" onclick="window.location.reload()">
             <img src="images/logo.png" alt="GyanTuner Logo">
@@ -180,12 +193,15 @@
             <li><a href="#about">About</a></li>
         </ul>
         <div class="nav-actions">
+            <button class="btn-install-app" id="pwaInstallBtn">
+                <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24" style="display:inline-block; vertical-align:middle;"><path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
+                Install App
+            </button>
             <button class="btn-login" onclick="window.location.href='sign.html'">Sign In</button>
             <button class="btn-register" onclick="window.location.href='sign.html'">Register</button>
         </div>
     </nav>
 
-    <!-- HERO SECTION -->
     <section class="hero-section" id="home">
         <div class="hero-left">
             <div class="hero-badge">GyanTuner Creation ⚡</div>
@@ -196,25 +212,22 @@
             </div>
         </div>
         <div class="hero-right">
-            <!-- Rive Surface Canvas -->
-            <canvas id="riveCanvas"></canvas>
-
-            <!-- HTML Backup System (Tabhi dikhega jab local file me koi dikat aaye) -->
-            <div class="fallback-avatar-wrapper" id="fallbackAvatar">
-                <div class="avatar-body-mesh">
-                    <div class="avatar-face-eyes-layer" id="eyesGroup">
-                        <div class="eye-socket-orbit"><div class="eye-pupil-dot"></div></div>
-                        <div class="eye-socket-orbit"><div class="eye-pupil-dot"></div></div>
+            <div class="live-custom-avatar-shell" id="liveAvatarContainer">
+                <div class="mesh-body-base">
+                    <div class="mesh-face-eyes" id="liveFaceLayer">
+                        <div class="socket-orbit-circle"><div class="pupil-dark-dot"></div></div>
+                        <div class="socket-orbit-circle"><div class="pupil-dark-dot"></div></div>
                     </div>
                 </div>
                 <div class="tentacles-dock">
-                    <div class="tentacle-leg"></div><div class="tentacle-leg"></div><div class="tentacle-leg"></div>
+                    <div class="tentacle-leg"></div>
+                    <div class="tentacle-leg"></div>
+                    <div class="tentacle-leg"></div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- FEATURES ZONE -->
     <section class="section-container" id="features">
         <div class="section-header">
             <h2>Explore Core Arenas</h2>
@@ -240,14 +253,13 @@
         </div>
     </section>
 
-    <!-- ABOUT BLOCK -->
     <section class="section-container" id="about">
         <div class="about-flex">
             <div class="about-left reveal-target">
                 <h2>Engineered For Excellence</h2>
                 <p style="color: #64748b; margin-top: 15px; line-height: 1.7;">GyanTuner eliminates lagging static standard system approaches. Powered by state-of-the-art interactive Rive vector animations and clean scalable performance mechanics, your learning layout scales continuously.</p>
             </div>
-            <div class="about-right reveal-target" style="background: #eff6ff; padding: 40px; border-radius: 24px; border: 2px dashed #bfdbfe;">
+            <div class="about-right reveal-target">
                 <h3 style="color: #1e3a8a; margin-bottom: 10px;">⚡ Local Asset Pipeline</h3>
                 <p style="color: #475569; font-size: 0.95rem; line-height: 1.6;">Zero robotic synthesis latency. Experience crisp authentic multi-channel high fidelity response delivery across every single modular interface game board.</p>
             </div>
@@ -258,7 +270,6 @@
         &copy; 2026 GyanTuner Hub by GyanTuner. All rights reserved.
     </footer>
 
-    <!-- ================= JAVASCRIPT AUTHENTICATION LAYER ================= -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
         import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
@@ -277,72 +288,37 @@
         onAuthStateChanged(auth, (user) => { if (user) { console.log("User Logged:", user.displayName); } });
     </script>
 
-    <!-- ================= RIVE LOCAL CORE ENGINE ================= -->
     <script>
-        let riveInstance = null;
-        let xInput = null;
-        let yInput = null;
-
-        function initRiveCharacter() {
-            riveInstance = new rive.Rive({
-                // 🌟 UPDATED LOCAL PATH: Ab aapka character local folder se load hoga
-                src: "rive/character.riv",
-                canvas: document.getElementById("riveCanvas"),
-                autoplay: true,
-                // 🌟 UPDATED STATE MACHINE: Matches with your downloaded octopus setup
-                stateMachines: "State Machine 1", 
-                onLoad: () => {
-                    riveInstance.resizeDrawingSurfaceToCanvas();
-                    // Perfect load hone par default loop backup ko hide kar do
-                    document.getElementById('fallbackAvatar').style.display = 'none';
-
-                    // Mouse pointer mapping links setup
-                    const inputs = riveInstance.stateMachineInputs("State Machine 1");
-                    if(inputs) {
-                        xInput = inputs.find(i => i.name === 'pointerX' || i.name === 'mouseX');
-                        yInput = inputs.find(i => i.name === 'pointerY' || i.name === 'mouseY');
-                    }
-                }
-            });
-        }
-
-        // Mouse Tracker mapping logic for eyes movement
         window.addEventListener('mousemove', (e) => {
-            // 1. Pass coordinates if local Rive is running smoothly
-            if (riveInstance && xInput && yInput) {
-                const canvasBox = document.getElementById("riveCanvas").getBoundingClientRect();
-                const x = ((e.clientX - canvasBox.left) / canvasBox.width) * 100;
-                const y = ((e.clientY - canvasBox.top) / canvasBox.height) * 100;
-                xInput.value = x;
-                yInput.value = y;
-            }
-
-            // 2. Backup CSS engine tracker logic
-            const pupils = document.querySelectorAll('.eye-pupil-dot');
-            const faceLayer = document.getElementById('eyesGroup');
+            const pupils = document.querySelectorAll('.pupil-dark-dot');
+            const faceLayer = document.getElementById('liveFaceLayer');
             
             pupils.forEach((pupil) => {
-                const rect = pupil.parentElement.getBoundingClientRect();
-                const eyeX = rect.left + rect.width / 2;
-                const eyeY = rect.top + rect.height / 2;
+                const parentBox = pupil.parentElement.getBoundingClientRect();
+                const eyeX = parentBox.left + parentBox.width / 2;
+                const eyeY = parentBox.top + parentBox.height / 2;
                 
-                const angle = Math.atan2(e.clientY - eyeY, e.clientX - eyeX);
-                const distance = Math.min(8, Math.hypot(e.clientX - eyeX, e.clientY - eyeY) / 30);
+                const relativeAngle = Math.atan2(e.clientY - eyeY, e.clientX - eyeX);
+                const travelDistance = Math.min(8, Math.hypot(e.clientX - eyeX, e.clientY - eyeY) / 32);
                 
-                const pupilX = Math.cos(angle) * distance;
-                const pupilY = Math.sin(angle) * distance;
-                pupil.style.transform = `translate(${pupilX}px, ${pupilY}px)`;
+                const pupilShiftX = Math.cos(relativeAngle) * travelDistance;
+                const pupilShiftY = Math.sin(relativeAngle) * travelDistance;
+                pupil.style.transform = `translate(${pupilShiftX}px, ${pupilShiftY}px)`;
             });
 
             if(faceLayer) {
-                const heroBox = faceLayer.parentElement.getBoundingClientRect();
-                const centerX = heroBox.left + heroBox.width/2;
-                const shiftX = (e.clientX - centerX) / 45;
-                faceLayer.style.left = `${50 + shiftX}px`;
+                const bodyContainer = faceLayer.parentElement.getBoundingClientRect();
+                const bodyCenterX = bodyContainer.left + bodyContainer.width / 2;
+                const bodyCenterY = bodyContainer.top + bodyContainer.height / 2;
+                
+                const faceShiftX = (e.clientX - bodyCenterX) / 48;
+                const faceShiftY = (e.clientY - bodyCenterY) / 52;
+                
+                faceLayer.style.transform = `translate(${faceShiftX}px, ${faceShiftY}px)`;
             }
         });
 
-        // --- SCROLL REVEAL INTERSECTION CARDS ---
+        // --- SCROLL INTERSECTION OBSERVER Target TARGETS ---
         function initScrollAnimations() {
             const revealObserver = new IntersectionObserver((entries) => {
                 entries.forEach(entry => {
@@ -353,17 +329,27 @@
             document.querySelectorAll('.reveal-card, .about-left, .about-right').forEach(el => revealObserver.observe(el));
         }
 
+        // ================= FLIPKART STYLE PWA INSTALL LISTENER INTERACTION =================
+        let deferredPrompt;
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredPrompt = e;
+            const installBtn = document.getElementById('pwaInstallBtn');
+            if (installBtn) installBtn.style.display = 'flex';
+        });
+
+        document.getElementById('pwaInstallBtn').addEventListener('click', async () => {
+            if (deferredPrompt) {
+                deferredPrompt.prompt();
+                const { outcome } = await deferredPrompt.userChoice;
+                if (outcome === 'accepted') console.log('Aman, user installed GyanTuner app successfully!');
+                deferredPrompt = null;
+                document.getElementById('pwaInstallBtn').style.display = 'none';
+            }
+        });
+
         window.addEventListener('DOMContentLoaded', () => {
-            initRiveCharacter();
             initScrollAnimations();
-            
-            // Safety timeout check layer
-            setTimeout(() => {
-                const canvas = document.getElementById('riveCanvas');
-                if(!riveInstance || canvas.getBoundingClientRect().width === 0) {
-                    document.getElementById('fallbackAvatar').style.display = 'flex';
-                }
-            }, 2500);
         });
     </script>
 </body>
