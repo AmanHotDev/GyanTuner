@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GyanTuner - Dashboard 🎛️</title>
+    <style>
+        /* ================= PREMIUM MODERN CORE STYLES ================= */
+        * {
+            margin: 0; padding: 0; box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        body {
+            background: #f8fafc;
+            min-height: 100vh;
+            display: flex; flex-direction: column; align-items: center;
+            color: #1e293b; padding: 30px 20px;
+        }
+
+        /* 🎛️ PREMIUM CLEAN NAVBAR HEADER (Synced with index.html) */
+        .dashboard-header {
+            width: 100%; max-width: 1024px;
+            display: flex; justify-content: space-between; align-items: center;
+            background: #ffffff; padding: 16px 40px; border-radius: 20px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.02); margin-bottom: 50px;
+            border: 1px solid rgba(0, 0, 0, 0.03);
+            animation: headerSlideDown 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        @keyframes headerSlideDown {
+            0% { transform: translateY(-20px); opacity: 0; }
+            100% { transform: translateY(0); opacity: 1; }
+        }
+
+        .dash-logo-box { display: flex; align-items: center; gap: 12px; cursor: pointer; }
+        .dash-logo-box img { width: 38px; height: 38px; object-fit: contain; border-radius: 8px; }
+        .dash-brand-name { font-size: 1.4rem; font-weight: 800; color: #1e3a8a; letter-spacing: -0.5px; }
+
+        /* 🚪 PREMIUM ICON LOGOUT BUTTON */
+        .btn-logout {
+            background: #f1f5f9; color: #64748b; border: 1px solid #e2e8f0;
+            padding: 10px 22px; border-radius: 50px; font-weight: 700;
+            font-size: 0.95rem; cursor: pointer; display: flex; align-items: center; gap: 8px;
+            transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .btn-logout svg { width: 18px; height: 18px; fill: currentColor; transition: transform 0.2s; }
+        .btn-logout:hover { 
+            background: #fee2e2; color: #ef4444; border-color: #fca5a5;
+            box-shadow: 0 4px 12px rgba(239, 68, 68, 0.1);
+        }
+        .btn-logout:hover svg { transform: translateX(2px); }
+
+        /* 🎪 CARDS GRID HUB CONTAINER */
+        .main-hub-title { text-align: center; margin-bottom: 45px; animation: fadeInDelayed 0.6s ease forward; }
+        .main-hub-title h2 { font-size: 2.5rem; color: #0f172a; font-weight: 800; letter-spacing: -0.8px; }
+        .main-hub-title p { color: #64748b; margin-top: 8px; font-size: 1.1rem; font-weight: 500; }
+
+        .role-cards-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+            gap: 35px; width: 100%; max-width: 950px;
+            animation: cardsEntranceUp 0.7s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        @keyframes cardsEntranceUp {
+            0% { transform: translateY(30px); opacity: 0; }
+            100% { transform: translateY(0); opacity: 1; }
+        }
+
+        /* PREMIUM SELECTION CARDS SYSTEM */
+        .role-card {
+            background: #ffffff; border-radius: 24px; padding: 45px 35px;
+            text-align: center; cursor: pointer; border: 2px solid #e2e8f0;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.02); 
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            position: relative; display: flex; flex-direction: column; align-items: center;
+        }
+
+        /* Core Vector Frame Holder for Custom App Icons */
+        .icon-container-circle {
+            width: 80px; height: 80px; border-radius: 50%;
+            display: flex; justify-content: center; align-items: center;
+            margin-bottom: 25px; transition: all 0.3s ease;
+        }
+
+        /* Specific Child Palette Sync */
+        .card-kids .icon-container-circle { background: #eff6ff; color: #2563eb; }
+        .card-kids .icon-svg { width: 40px; height: 40px; fill: #2563eb; }
+        
+        /* Specific Elder Palette Sync */
+        .card-elder .icon-container-circle { background: #f8fafc; color: #1e3a8a; }
+        .card-elder .icon-svg { width: 40px; height: 40px; fill: #1e3a8a; }
+
+        .card-title { font-size: 1.6rem; font-weight: 800; color: #0f172a; margin-bottom: 12px; letter-spacing: -0.4px; }
+        .card-desc { font-size: 1rem; color: #64748b; line-height: 1.6; margin-bottom: 30px; font-weight: 500; }
+
+        /* Premium Actions Pill Buttons setup */
+        .card-btn {
+            width: 100%; padding: 14px; border-radius: 12px;
+            font-weight: 700; font-size: 1rem; border: none; cursor: pointer;
+            margin-top: auto; transition: all 0.2s ease;
+        }
+        
+        .card-kids .card-btn { background: #eff6ff; color: #2563eb; }
+        .card-elder .card-btn { background: #f1f5f9; color: #1e3a8a; }
+
+        /* 🌀 CARD HOVER INTERACTIONS ENGINE */
+        .role-card:hover {
+            transform: translateY(-8px);
+            background: #ffffff;
+            border-color: #2563eb;
+            box-shadow: 0 20px 40px rgba(37, 99, 235, 0.08);
+        }
+
+        .card-kids:hover .icon-container-circle { background: #2563eb; }
+        .card-kids:hover .icon-svg { fill: #ffffff; }
+        .card-kids:hover .card-btn { background: #2563eb; color: #ffffff; box-shadow: 0 4px 15px rgba(37, 99, 235, 0.2); }
+
+        .role-card.card-elder:hover {
+            border-color: #1e3a8a;
+            box-shadow: 0 20px 40px rgba(30, 58, 138, 0.08);
+        }
+        .card-elder:hover .icon-container-circle { background: #1e3a8a; }
+        .card-elder:hover .icon-svg { fill: #ffffff; }
+        .card-elder:hover .card-btn { background: #1e3a8a; color: #ffffff; box-shadow: 0 4px 15px rgba(30, 58, 138, 0.2); }
+    </style>
+</head>
+<body>
+
+    <header class="dashboard-header">
+        <div class="dash-logo-box" onclick="goToHome()">
+            <img src="images/logo.png" alt="GyanTuner Logo">
+            <span class="dash-brand-name">GyanTuner</span>
+        </div>
+        <button class="btn-logout" onclick="goToHome()">
+            Logout
+            <svg viewBox="0 0 24 24">
+                <path d="M16 13v-2H7V9l-5 3 5 4v-2h9M20 3H9c-1.1 0-2 .9-2 2v4h2V5h11v14H9v-4H7v4c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"/>
+            </svg>
+        </button>
+    </header>
+
+    <div class="main-hub-title">
+        <h2>Welcome to Mind Arena</h2>
+        <p>Select your learning interface module to execute memory operations.</p>
+    </div>
+
+    <main class="role-cards-grid">
+        
+        <div class="role-card card-kids" onclick="navigateToKidsArena()">
+            <div class="icon-container-circle">
+                <svg class="icon-svg" viewBox="0 0 24 24">
+                    <path d="M12 2c1.1 0 2 .9 2 2s-.9 2-2 2-2-.9-2-2 .9-2 2-2zm9 7h-6v13h-2v-6h-2v6H9V9H3V7h18v2z"/>
+                </svg>
+            </div>
+            <h3 class="card-title">For Child</h3>
+            <p class="card-desc">Interactive sandbox environment containing dynamic multi-channel audio alphabet and randomized sound puzzle tracking nodes.</p>
+            <button class="card-btn">Let's Play 🎈</button>
+        </div>
+
+        <div class="role-card card-elder" onclick="alert('Elder Learning Zone is coming soon! Code locked by GyanTuner. 🔒')">
+            <div class="icon-container-circle">
+                <svg class="icon-svg" viewBox="0 0 24 24">
+                    <path d="M12 3c-4.97 0-9 4.03-9 9 0 2.12.74 4.07 1.97 5.61L4.35 19.4c-.39.39-.39 1.02 0 1.41.39.39 1.02.39 1.41 0l1.9-1.9C9.11 19.64 10.51 20 12 20c4.97 0 9-4.03 9-9s-4.03-9-9-9zm0 15c-3.31 0-6-2.69-6-6s2.69-6 6-6 6 2.69 6 6-2.69 6-6 6z"/>
+                </svg>
+            </div>
+            <h3 class="card-title">For Elder</h3>
+            <p class="card-desc">Advanced memory acceleration workspace loaded with fluid logical math matrix testing grids and analytical tracking metrics.</p>
+            <button class="card-btn">Enter Arena 🚀</button>
+        </div>
+
+    </main>
+
+    <script>
+        function navigateToKidsArena() {
+            window.location.href = "child.html";
+        }
+
+        function goToHome() {
+            window.location.href = "index.html";
+        }
+    </script>
+</body>
+</html>

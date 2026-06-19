@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GyanTuner Kids Hub 🧸</title>
+    <style>
+        /* ================= CUTE PREMIUM 3D KIDS WORKSPACE ================= */
+        * {
+            margin: 0; padding: 0; box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            text-rendering: optimizeLegibility;
+        }
+
+        body {
+            background: #f0f4f8;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 30px 20px;
+        }
+
+        /* 🎛️ CONTROL PANEL HEADER */
+        .kids-header {
+            width: 100%; max-width: 1000px;
+            display: flex; justify-content: space-between; align-items: center;
+            margin-bottom: 35px; background: #ffffff;
+            padding: 18px 35px; border-radius: 24px;
+            box-shadow: 0 8px 0 #e2e8f0, 0 12px 24px rgba(0, 0, 0, 0.02);
+            border: 3px solid #cbd5e1;
+        }
+
+        .kids-logo {
+            font-size: 1.7rem; font-weight: 800;
+            color: #1e3a8a; letter-spacing: -0.5px;
+        }
+
+        .btn-back {
+            background: #ffffff; color: #1e3a8a; border: 3px solid #cbd5e1;
+            padding: 10px 24px; border-radius: 50px;
+            font-size: 0.95rem; font-weight: 700; cursor: pointer;
+            box-shadow: 0 4px 0 #cbd5e1;
+            transition: all 0.1s ease;
+        }
+        .btn-back:hover {
+            border-color: #1e3a8a; color: #1e3a8a;
+        }
+        .btn-back:active {
+            transform: translateY(4px); box-shadow: 0 0 0 transparent;
+        }
+
+        /* ================= 🎛️ NAVIGATION MENU TABS ================= */
+        .kids-menu-tabs {
+            display: flex; gap: 15px; margin-bottom: 35px;
+            width: 100%; max-width: 1000px; justify-content: center;
+        }
+
+        .tab-btn {
+            background: #ffffff; border: 3px solid #cbd5e1;
+            padding: 14px 32px; border-radius: 20px;
+            font-size: 1.05rem; font-weight: 700; color: #64748b;
+            cursor: pointer; box-shadow: 0 6px 0 #cbd5e1;
+            transition: all 0.1s ease;
+        }
+
+        .tab-btn.active-tab {
+            background: #2563eb; color: #ffffff; border-color: #1e3a8a;
+            box-shadow: 0 6px 0 #1d4ed8;
+        }
+        .tab-btn:hover:not(.active-tab) {
+            border-color: #94a3b8; color: #0f172a;
+        }
+        .tab-btn:active {
+            transform: translateY(6px); box-shadow: 0 0 0 transparent;
+        }
+
+        /* 👑 THE MAIN PLAYGROUND BOARD */
+        .playground-panel {
+            display: none;
+            width: 100%; max-width: 1000px;
+            background: #ffffff; border-radius: 32px;
+            padding: 45px 40px; text-align: center;
+            box-shadow: 0 12px 0 #e2e8f0, 0 20px 40px rgba(0, 0, 0, 0.03);
+            border: 3px solid #cbd5e1;
+        }
+        .playground-panel.active-panel { display: block; }
+
+        h1 { color: #0f172a; font-size: 2.6rem; font-weight: 800; margin-bottom: 12px; letter-spacing: -0.6px; }
+        .game-instruction { color: #2563eb; font-size: 1.2rem; font-weight: 700; margin-bottom: 35px; }
+
+        /* 📦 TOY BOX DISPLAY CONTAINER */
+        .visual-display-zone {
+            width: 200px; height: 180px;
+            margin: 0 auto 40px auto; background: #f8fafc;
+            border: 4px dashed #2563eb; border-radius: 24px;
+            display: flex; justify-content: center; align-items: center;
+            box-shadow: inset 0 4px 10px rgba(0, 0, 0, 0.03);
+        }
+        .visual-display-zone img { width: 75%; height: 80%; object-fit: contain; }
+        .pop-image { animation: toyPopEffect 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) forwards; }
+        @keyframes toyPopEffect { 0% { transform: scale(0.7); opacity: 0; } 100% { transform: scale(1); opacity: 1; } }
+
+        /* ================= 🔤 THE 3D TOY CARDS GRID SYSTEM ================= */
+        .alphabet-grid, .puzzle-options-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 24px; max-height: 440px; overflow-y: auto; padding: 15px;
+            border-radius: 20px; background: #f8fafc; border: 3px solid #e2e8f0;
+        }
+        .alphabet-grid::-webkit-scrollbar, .puzzle-options-grid::-webkit-scrollbar { width: 8px; }
+        .alphabet-grid::-webkit-scrollbar-thumb, .puzzle-options-grid::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
+
+        /* 🃏 TOY CARD ARCHITECTURE */
+        .letter-card, .puzzle-choice-card {
+            background: #ffffff; 
+            border: 3px solid #cbd5e1; 
+            border-radius: 22px; 
+            padding: 24px 14px;
+            font-size: 2.5rem; font-weight: 800; color: #1e3a8a; cursor: pointer;
+            box-shadow: 0 8px 0 #cbd5e1; /* Gives thick physical card weight */
+            transition: all 0.1s ease; text-align: center;
+        }
+        
+        /* Interactive feedback matrix loops */
+        .letter-card:hover, .puzzle-choice-card:hover {
+            border-color: #2563eb; color: #2563eb;
+            transform: translateY(-2px);
+            box-shadow: 0 10px 0 #2563eb;
+        }
+        .letter-card:active, .puzzle-choice-card:active { 
+            transform: translateY(8px); 
+            box-shadow: 0 0 0 transparent; /* Pushed down state */
+        }
+        
+        .card-subtext { display: block; font-size: 0.9rem; color: #64748b; margin-top: 8px; font-weight: 700; }
+
+        .puzzle-choice-card { padding: 20px 14px; }
+        .puzzle-choice-card img { width: 75px; height: 75px; object-fit: contain; display: block; margin: 0 auto 10px auto; }
+        .puzzle-choice-card .card-title-text { font-size: 1.05rem; font-weight: 800; color: #0f172a; }
+
+        /* 📢 ULTRA SPEAKER BUTTON DOCK */
+        .speaker-btn {
+            background: #1e3a8a; color: white;
+            border: 3px solid #111827; width: 110px; height: 100px; border-radius: 50%;
+            font-size: 3rem; cursor: pointer; display: block; margin: 20px auto 35px auto;
+            box-shadow: 0 8px 0 #111827, 0 12px 24px rgba(30, 58, 138, 0.2);
+            transition: all 0.1s ease;
+        }
+        .speaker-btn:hover { background: #2563eb; border-color: #1e3a8a; box-shadow: 0 8px 0 #1e3a8a; }
+        .speaker-btn:active { transform: translateY(8px); box-shadow: 0 0 0 transparent; }
+        
+        /* SUCCESS / ERROR SIGNALS */
+        .puzzle-choice-card.correct-ans { 
+            border-color: #10b981 !important; background: #f0fdf4 !important; color: #15803d !important; 
+            box-shadow: 0 8px 0 #10b981 !important; 
+        }
+        .puzzle-choice-card.correct-ans .card-title-text { color: #15803d !important; }
+        
+        .puzzle-choice-card.wrong-ans { 
+            border-color: #ef4444 !important; background: #fef2f2 !important; color: #991b1b !important; 
+            box-shadow: 0 8px 0 #ef4444 !important; 
+        }
+        .puzzle-choice-card.wrong-ans .card-title-text { color: #991b1b !important; }
+
+        .action-blue-btn {
+            background: #2563eb; color: white; border: 3px solid #1d4ed8; padding: 15px 40px;
+            border-radius: 20px; font-weight: 700; font-size: 1.1rem; cursor: pointer;
+            margin-top: 30px; box-shadow: 0 6px 0 #1d4ed8;
+            transition: all 0.1s ease;
+        }
+        .action-blue-btn:hover { background: #1d4ed8; }
+        .action-blue-btn:active { transform: translateY(6px); box-shadow: 0 0 0 transparent; }
+
+        .star-score-box { font-size: 1.5rem; color: #b45309; font-weight: 800; margin-top: 40px; display: flex; justify-content: center; align-items: center; gap: 8px; }
+    </style>
+</head>
+<body>
+
+    <!-- CONTROL HUB HEADER PANEL -->
+    <div class="kids-header">
+        <div class="kids-logo">GyanTuner Kids Hub 🧸</div>
+        <button class="btn-back" onclick="window.location.href='dashboard.html'">Go Back 🏠</button>
+    </div>
+
+    <div class="kids-menu-tabs">
+        <button class="tab-btn active-tab" id="tab1" onclick="switchKidsGame(1)">🔤 Alphabet Game</button>
+        <button class="tab-btn" id="tab2" onclick="switchKidsGame(2)">🎧 Aawaz Pehchano</button>
+        <button class="tab-btn" id="tab3" onclick="switchKidsGame(3)">🔒 Game 3 (Soon)</button>
+    </div>
+
+    <!-- ================= PANEL 1: ALPHABET ARENA ================= -->
+    <div class="playground-panel active-panel" id="panel1">
+        <h1>Alphabet Box</h1>
+        <p class="game-instruction">Letters par click karo aur Magic dekho! ✨</p>
+        <div class="visual-display-zone" id="displayBox"><img id="kidsTargetImage" src="https://img.icons8.com/emoji/170/teddy-bear.png"></div>
+        
+        <div class="alphabet-grid">
+            <div class="letter-card" onclick="playKidSound('a', 'https://img.icons8.com/emoji/170/red-apple.png', 'Apple 🍎')">A <span class="card-subtext">Apple 🍎</span></div>
+            <div class="letter-card" onclick="playKidSound('b', 'images/ball.png', 'Ball ⚽')">B <span class="card-subtext">Ball ⚽</span></div>
+            <div class="letter-card" onclick="playKidSound('c', 'https://img.icons8.com/emoji/170/cat-face.png', 'Cat 🐱')">C <span class="card-subtext">Cat 🐱</span></div>
+            <div class="letter-card" onclick="playKidSound('d', 'https://img.icons8.com/emoji/170/dog-face.png', 'Dog 🐶')">D <span class="card-subtext">Dog 🐶</span></div>
+            <div class="letter-card" onclick="playKidSound('e', 'https://img.icons8.com/emoji/170/elephant-emoji.png', 'Elephant 🐘')">E <span class="card-subtext">Elephant 🐘</span></div>
+            <div class="letter-card" onclick="playKidSound('f', 'https://img.icons8.com/emoji/170/fish-emoji.png', 'Fish 🐟')">F <span class="card-subtext">Fish 🐟</span></div>
+            <div class="letter-card" onclick="playKidSound('g', 'https://img.icons8.com/emoji/170/grapes-emoji.png', 'Grapes 🍇')">G <span class="card-subtext">Grapes 🍇</span></div>
+            <div class="letter-card" onclick="playKidSound('h', 'images/house.jpeg', 'House 🏡')">H <span class="card-subtext">House 🏡</span></div>
+            <div class="letter-card" onclick="playKidSound('i', 'https://img.icons8.com/emoji/170/ice-cream-emoji.png', 'Ice-Cream 🍦')">I <span class="card-subtext">Ice-Cream 🍦</span></div>
+            <div class="letter-card" onclick="playKidSound('j', 'images/joker.png', 'Joker 🃏')">J <span class="card-subtext">Joker 🃏</span></div>
+            <div class="letter-card" onclick="playKidSound('k', 'images/kite.png', 'Kite 🪁')">K <span class="card-subtext">Kite 🪁</span></div>
+            <div class="letter-card" onclick="playKidSound('l', 'https://img.icons8.com/emoji/170/lion-emoji.png', 'Lion 🦁')">L <span class="card-subtext">Lion 🦁</span></div>
+            <div class="letter-card" onclick="playKidSound('m', 'https://img.icons8.com/emoji/170/mango-emoji.png', 'Mango 🥭')">M <span class="card-subtext">Mango 🥭</span></div>
+            <div class="letter-card" onclick="playKidSound('n', 'images/nest.png', 'Nest 🪹')">N <span class="card-subtext">Nest 🪹</span></div>
+            <div class="letter-card" onclick="playKidSound('o', 'images/orange.png', 'Orange 🍊')">O <span class="card-subtext">Orange 🍊</span></div>
+            <div class="letter-card" onclick="playKidSound('p', 'https://img.icons8.com/emoji/170/parrot-emoji.png', 'Parrot 🦜')">P <span class="card-subtext">Parrot 🦜</span></div>
+            <div class="letter-card" onclick="playKidSound('q', 'images/queen.png', 'Queen 👸')">Q <span class="card-subtext">Queen 👸</span></div>
+            <div class="letter-card" onclick="playKidSound('r', 'https://img.icons8.com/emoji/170/rabbit-emoji.png', 'Rabbit 🐇')">R <span class="card-subtext">Rabbit 🐇</span></div>
+            <div class="letter-card" onclick="playKidSound('s', 'images/sun.png', 'Sun ☀️')">S <span class="card-subtext">Sun ☀️</span></div>
+            <div class="letter-card" onclick="playKidSound('t', 'https://img.icons8.com/emoji/170/tiger-emoji.png', 'Tiger 🐯')">T <span class="card-subtext">Tiger 🐯</span></div>
+            <div class="letter-card" onclick="playKidSound('u', 'https://img.icons8.com/emoji/170/umbrella-emoji.png', 'Umbrella ☂️')">U <span class="card-subtext">Umbrella ☂️</span></div>
+            <div class="letter-card" onclick="playKidSound('v', 'images/van.jpeg', 'Van 🚐')">V <span class="card-subtext">Van 🚐</span></div>
+            <div class="letter-card" onclick="playKidSound('w', 'https://img.icons8.com/emoji/170/watch-emoji.png', 'Watch ⌚')">W <span class="card-subtext">Watch ⌚</span></div>
+            <div class="letter-card" onclick="playKidSound('x', 'images/xylophone.png', 'Xylophone 🪘')">X <span class="card-subtext">Xylophone 🪘</span></div>
+            <div class="letter-card" onclick="playKidSound('y', 'images/yak.png', 'Yak 🐂')">Y <span class="card-subtext">Yak 🐂</span></div>
+            <div class="letter-card" onclick="playKidSound('z', 'https://img.icons8.com/emoji/170/zebra-emoji.png', 'Zebra 🦓')">Z <span class="card-subtext">Zebra 🦓</span></div>
+        </div>
+    </div>
+
+    <!-- ================= PANEL 2: AAWAZ PEHCHANO ================= -->
+    <div class="playground-panel" id="panel2">
+        <h1>Mind Arena - Aawaz Pehchano!</h1>
+        <p class="game-instruction">📢 Gulaabi button dabakar aawaz suno aur sahi Card chuno!</p>
+        
+        <button class="speaker-btn" onclick="playCurrentPuzzleSound()">📢</button>
+        <div class="puzzle-options-grid" id="puzzleCardsGrid"></div>
+        <button class="action-blue-btn" id="nextPuzzleBtn" style="display:none;" onclick="initiateRandomPuzzleGame()">Next Sound 🎲</button>
+    </div>
+
+    <!-- ================= PANEL 3: LOCKED ================= -->
+    <div class="playground-panel" id="panel3">
+        <h1>Game 3 Coming Soon!</h1>
+        <p class="game-instruction" style="color: #64748b; margin-top: 30px;">🔒 Locked by GyanTuner. ⚡</p>
+    </div>
+
+    <div class="star-score-box">⭐ Total Reward Stars: <span id="starCount">0</span></div>
+
+    <!-- ================= JAVASCRIPT SYSTEM ENGINE ================= -->
+    <script>
+        let stars = 0;
+        let activeAudio = null;
+        let activePuzzleAudio = null;
+        let feedbackAudio = null;
+
+        function switchKidsGame(tabNumber) {
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active-tab'));
+            document.querySelectorAll('.playground-panel').forEach(panel => panel.classList.remove('active-panel'));
+            document.getElementById(`tab${tabNumber}`).classList.add('active-tab');
+            document.getElementById(`panel${tabNumber}`).classList.add('active-panel');
+            if(activeAudio) activeAudio.pause();
+            if(activePuzzleAudio) activePuzzleAudio.pause();
+            if(feedbackAudio) feedbackAudio.pause();
+            if(tabNumber === 2) { initiateRandomPuzzleGame(); }
+        }
+
+        const puzzleDatabase = [
+            { id: "train", soundUrl: "audio/train.mp3", img: "https://img.icons8.com/emoji/170/locomotive-emoji.png", title: "Train 🚂" },
+            { id: "rain", soundUrl: "audio/rain.mp3", img: "https://img.icons8.com/emoji/170/cloud-with-rain-emoji.png", title: "Rain 🌧️" },
+            { id: "cat", soundUrl: "audio/cat_real.mp3", img: "https://img.icons8.com/emoji/170/cat-face.png", title: "Cat 🐱" },
+            { id: "dog", soundUrl: "audio/dog_real.mp3", img: "https://img.icons8.com/emoji/170/dog-face.png", title: "Dog 🐶" },
+            { id: "lion", soundUrl: "audio/lion_real.mp3", img: "https://img.icons8.com/emoji/170/lion-emoji.png", title: "Lion 🦁" },
+            { id: "monkey", soundUrl: "audio/monkey_real.mp3", img: "images/monkey.png", title: "Monkey 🐵" },
+            { id: "cow", soundUrl: "audio/cow_real.mp3", img: "images/cow.png", title: "Cow 🐮" },
+            { id: "elephant", soundUrl: "audio/elephant_real.mp3", img: "https://img.icons8.com/emoji/170/elephant-emoji.png", title: "Elephant 🐘" },
+            { id: "duck", soundUrl: "audio/duck_real.mp3", img: "https://img.icons8.com/emoji/170/duck-emoji.png", title: "Duck 🦆" },
+            { id: "crow", soundUrl: "audio/crow_real.mp3", img: "https://img.icons8.com/emoji/170/bird-emoji.png", title: "Crow 🐦" },
+            { id: "car", soundUrl: "audio/car_horn.mp3", img: "images/car.png", title: "Car 🚗" },
+            { id: "airplane", soundUrl: "audio/airplane.mp3", img: "https://img.icons8.com/emoji/170/airplane-emoji.png", title: "Airplane ✈️" },
+            { id: "clock", soundUrl: "audio/clock.mp3", img: "https://img.icons8.com/emoji/170/alarm-clock-emoji.png", title: "Clock ⏰" },
+            { id: "ambulance", soundUrl: "audio/ambulance.mp3", img: "https://img.icons8.com/emoji/170/ambulance-emoji.png", title: "Ambulance 🚑" },
+            { id: "clapping", soundUrl: "audio/clapping.mp3", img: "images/clap.png", title: "Clapping 👏" }
+        ];
+
+        let currentActiveQuestion = null;
+
+        function initiateRandomPuzzleGame() {
+            document.getElementById('nextPuzzleBtn').style.display = 'none';
+            const randomIndex = Math.floor(Math.random() * puzzleDatabase.length);
+            currentActiveQuestion = puzzleDatabase[randomIndex];
+
+            const cardsGrid = document.getElementById('puzzleCardsGrid');
+            cardsGrid.innerHTML = '';
+
+            let choicesPool = [currentActiveQuestion];
+            let wrongPool = puzzleDatabase.filter(item => item.id !== currentActiveQuestion.id);
+            wrongPool.sort(() => Math.random() - 0.5);
+            
+            choicesPool.push(wrongPool[0]);
+            choicesPool.push(wrongPool[1]);
+            choicesPool.sort(() => Math.random() - 0.5);
+
+            choicesPool.forEach((item) => {
+                const choiceCard = document.createElement('div');
+                choiceCard.className = 'puzzle-choice-card';
+                choiceCard.innerHTML = `<img src="${item.img}"><div class="card-title-text">${item.title.split(' ')[0]}</div>`;
+                choiceCard.onclick = () => evaluateKidsAnswer(choiceCard, item.id);
+                cardsGrid.appendChild(choiceCard);
+            });
+            
+            playCurrentPuzzleSound();
+        }
+
+        function playCurrentPuzzleSound() {
+            if(currentActiveQuestion) {
+                if(activePuzzleAudio) activePuzzleAudio.pause();
+                activePuzzleAudio = new Audio(currentActiveQuestion.soundUrl);
+                activePuzzleAudio.play().catch(err => console.log("Audio file missing path: " + currentActiveQuestion.soundUrl));
+            }
+        }
+
+        function evaluateKidsAnswer(selectedCard, selectedId) {
+            const allChoiceCards = document.querySelectorAll('.puzzle-choice-card');
+            allChoiceCards.forEach(card => card.style.pointerEvents = 'none');
+
+            if(feedbackAudio) feedbackAudio.pause();
+
+            if(selectedId === currentActiveQuestion.id) {
+                selectedCard.classList.add('correct-ans');
+                feedbackAudio = new Audio('audio/yay.mp3');
+                feedbackAudio.play().catch(e => console.log("yay.mp3 missing"));
+                stars += 5;
+            } else {
+                selectedCard.classList.add('wrong-ans');
+                allChoiceCards.forEach((card) => {
+                    if(card.innerText.toLowerCase().includes(currentActiveQuestion.title.split(' ')[0].toLowerCase())) {
+                        card.classList.add('correct-ans');
+                    }
+                });
+                feedbackAudio = new Audio('audio/no.mp3'); 
+                feedbackAudio.play().catch(e => console.log("no.mp3 alert skipped"));
+            }
+
+            document.getElementById('starCount').innerText = stars;
+            document.getElementById('nextPuzzleBtn').style.display = 'inline-block';
+        }
+
+        function playKidSound(letter, imageUrl, wordName) {
+            const imgTag = document.getElementById('kidsTargetImage');
+            const displayBox = document.getElementById('displayBox');
+            imgTag.src = imageUrl; displayBox.style.borderColor = "#2563eb";
+            imgTag.classList.remove('pop-image'); void imgTag.offsetWidth; imgTag.classList.add('pop-image');
+
+            if(activeAudio) { activeAudio.pause(); activeAudio.currentTime = 0; }
+            
+            activeAudio = new Audio(`audio/${letter}.mp3`);
+            activeAudio.play().catch(err => {
+                console.log(`Local file audio/${letter}.mp3 missing.`);
+            });
+            
+            stars++; document.getElementById('starCount').innerText = stars;
+        }
+    </script>
+</body>
+</html>
