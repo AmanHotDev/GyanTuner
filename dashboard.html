@@ -54,7 +54,7 @@
         .btn-logout:hover svg { transform: translateX(2px); }
 
         /* 🎪 CARDS GRID HUB CONTAINER */
-        .main-hub-title { text-align: center; margin-bottom: 45px; animation: fadeInDelayed 0.6s ease forward; }
+        .main-hub-title { text-align: center; margin-bottom: 45px; }
         .main-hub-title h2 { font-size: 2.5rem; color: #0f172a; font-weight: 800; letter-spacing: -0.8px; }
         .main-hub-title p { color: #64748b; margin-top: 8px; font-size: 1.1rem; font-weight: 500; }
 
@@ -134,7 +134,7 @@
             <img src="images/logo.png" alt="GyanTuner Logo">
             <span class="dash-brand-name">GyanTuner</span>
         </div>
-        <button class="btn-logout" onclick="goToHome()">
+        <button class="btn-logout" id="firebaseLogoutBtn">
             Logout
             <svg viewBox="0 0 24 24">
                 <path d="M16 13v-2H7V9l-5 3 5 4v-2h9M20 3H9c-1.1 0-2 .9-2 2v4h2V5h11v14H9v-4H7v4c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"/>
@@ -172,6 +172,42 @@
         </div>
 
     </main>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+        import { getAuth, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+
+        // 🌟 APKA REAL FIREBASE CONFIGURATION LINK
+        const firebaseConfig = {
+            apiKey: "AIzaSyDQAcqvewHftBqWN8Kzn1tTHVihQi_UC7w",
+            authDomain: "gyantuner-c7919.firebaseapp.com",
+            projectId: "gyantuner-c7919",
+            storageBucket: "gyantuner-c7919.firebasestorage.app",
+            messagingSenderId: "772296086850",
+            appId: "1:772296086850:web:22308c20d3a8bd06f0a4db"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+
+        // Security check: Agar user login nahi hai, to wapas home page bhej do
+        onAuthStateChanged(auth, (user) => {
+            if (!user) {
+                window.location.href = "index.html";
+            } else {
+                console.log("Dashboard Active Session for:", user.email || user.phoneNumber);
+            }
+        });
+
+        // Safe Sign-Out system engine trigger
+        document.getElementById('firebaseLogoutBtn').addEventListener('click', () => {
+            signOut(auth).then(() => {
+                window.location.href = "index.html";
+            }).catch((err) => {
+                alert("Logout Error: " + err.message);
+            });
+        });
+    </script>
 
     <script>
         function navigateToKidsArena() {
