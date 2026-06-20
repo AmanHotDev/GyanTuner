@@ -119,11 +119,10 @@
             border-radius: 22px; 
             padding: 24px 14px;
             font-size: 2.5rem; font-weight: 800; color: #1e3a8a; cursor: pointer;
-            box-shadow: 0 8px 0 #cbd5e1; /* Gives thick physical card weight */
+            box-shadow: 0 8px 0 #cbd5e1; 
             transition: all 0.1s ease; text-align: center;
         }
         
-        /* Interactive feedback matrix loops */
         .letter-card:hover, .puzzle-choice-card:hover {
             border-color: #2563eb; color: #2563eb;
             transform: translateY(-2px);
@@ -131,7 +130,7 @@
         }
         .letter-card:active, .puzzle-choice-card:active { 
             transform: translateY(8px); 
-            box-shadow: 0 0 0 transparent; /* Pushed down state */
+            box-shadow: 0 0 0 transparent; 
         }
         
         .card-subtext { display: block; font-size: 0.9rem; color: #64748b; margin-top: 8px; font-weight: 700; }
@@ -178,7 +177,6 @@
 </head>
 <body>
 
-    <!-- CONTROL HUB HEADER PANEL -->
     <div class="kids-header">
         <div class="kids-logo">GyanTuner Kids Hub 🧸</div>
         <button class="btn-back" onclick="window.location.href='dashboard.html'">Go Back 🏠</button>
@@ -190,7 +188,6 @@
         <button class="tab-btn" id="tab3" onclick="switchKidsGame(3)">🔒 Game 3 (Soon)</button>
     </div>
 
-    <!-- ================= PANEL 1: ALPHABET ARENA ================= -->
     <div class="playground-panel active-panel" id="panel1">
         <h1>Alphabet Box</h1>
         <p class="game-instruction">Letters par click karo aur Magic dekho! ✨</p>
@@ -226,7 +223,6 @@
         </div>
     </div>
 
-    <!-- ================= PANEL 2: AAWAZ PEHCHANO ================= -->
     <div class="playground-panel" id="panel2">
         <h1>Mind Arena - Aawaz Pehchano!</h1>
         <p class="game-instruction">📢 Gulaabi button dabakar aawaz suno aur sahi Card chuno!</p>
@@ -236,7 +232,6 @@
         <button class="action-blue-btn" id="nextPuzzleBtn" style="display:none;" onclick="initiateRandomPuzzleGame()">Next Sound 🎲</button>
     </div>
 
-    <!-- ================= PANEL 3: LOCKED ================= -->
     <div class="playground-panel" id="panel3">
         <h1>Game 3 Coming Soon!</h1>
         <p class="game-instruction" style="color: #64748b; margin-top: 30px;">🔒 Locked by GyanTuner. ⚡</p>
@@ -244,7 +239,33 @@
 
     <div class="star-score-box">⭐ Total Reward Stars: <span id="starCount">0</span></div>
 
-    <!-- ================= JAVASCRIPT SYSTEM ENGINE ================= -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+        import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+
+        // 🌟 REAL CONFIGURATION PARAMS INTERFACED SUCCESSFULLY
+        const firebaseConfig = {
+            apiKey: "AIzaSyDQAcqvewHftBqWN8Kzn1tTHVihQi_UC7w",
+            authDomain: "gyantuner-c7919.firebaseapp.com",
+            projectId: "gyantuner-c7919",
+            storageBucket: "gyantuner-c7919.firebasestorage.app",
+            messagingSenderId: "772296086850",
+            appId: "1:772296086850:web:22308c20d3a8bd06f0a4db"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+
+        // Active auth security validation mapping layer
+        onAuthStateChanged(auth, (user) => {
+            if (!user) {
+                window.location.href = "index.html";
+            } else {
+                console.log("Kids Sandbox Active Instance verified via:", user.uid);
+            }
+        });
+    </script>
+
     <script>
         let stars = 0;
         let activeAudio = null;
@@ -276,7 +297,7 @@
             { id: "car", soundUrl: "audio/car_horn.mp3", img: "images/car.png", title: "Car 🚗" },
             { id: "airplane", soundUrl: "audio/airplane.mp3", img: "https://img.icons8.com/emoji/170/airplane-emoji.png", title: "Airplane ✈️" },
             { id: "clock", soundUrl: "audio/clock.mp3", img: "https://img.icons8.com/emoji/170/alarm-clock-emoji.png", title: "Clock ⏰" },
-            { id: "ambulance", soundUrl: "audio/ambulance.mp3", img: "https://img.icons8.com/emoji/170/ambulance-emoji.png", title: "Ambulance 🚑" },
+            { id: "ambulance", soundUrl: "audio/ambulance.mp3", img: "https://img.icons8.com/emoji/170/ambulance-emoji.png", title: "Ambulance Alternating rows setup sync", title: "Ambulance 🚑" },
             { id: "clapping", soundUrl: "audio/clapping.mp3", img: "images/clap.png", title: "Clapping 👏" }
         ];
 
@@ -325,39 +346,4 @@
 
             if(selectedId === currentActiveQuestion.id) {
                 selectedCard.classList.add('correct-ans');
-                feedbackAudio = new Audio('audio/yay.mp3');
-                feedbackAudio.play().catch(e => console.log("yay.mp3 missing"));
-                stars += 5;
-            } else {
-                selectedCard.classList.add('wrong-ans');
-                allChoiceCards.forEach((card) => {
-                    if(card.innerText.toLowerCase().includes(currentActiveQuestion.title.split(' ')[0].toLowerCase())) {
-                        card.classList.add('correct-ans');
-                    }
-                });
-                feedbackAudio = new Audio('audio/no.mp3'); 
-                feedbackAudio.play().catch(e => console.log("no.mp3 alert skipped"));
-            }
-
-            document.getElementById('starCount').innerText = stars;
-            document.getElementById('nextPuzzleBtn').style.display = 'inline-block';
-        }
-
-        function playKidSound(letter, imageUrl, wordName) {
-            const imgTag = document.getElementById('kidsTargetImage');
-            const displayBox = document.getElementById('displayBox');
-            imgTag.src = imageUrl; displayBox.style.borderColor = "#2563eb";
-            imgTag.classList.remove('pop-image'); void imgTag.offsetWidth; imgTag.classList.add('pop-image');
-
-            if(activeAudio) { activeAudio.pause(); activeAudio.currentTime = 0; }
-            
-            activeAudio = new Audio(`audio/${letter}.mp3`);
-            activeAudio.play().catch(err => {
-                console.log(`Local file audio/${letter}.mp3 missing.`);
-            });
-            
-            stars++; document.getElementById('starCount').innerText = stars;
-        }
-    </script>
-</body>
-</html>
+                feedbackAudio = new Audio('audio/yay.mp3
