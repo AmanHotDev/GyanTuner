@@ -312,11 +312,11 @@
 
     </div>
 
-    <!-- ================= LIVE BACKEND FIREBASE MODULES ================= -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
         import { getAuth, signInWithPopup, GoogleAuthProvider, signInWithEmailAndPassword, createUserWithEmailAndPassword, RecaptchaVerifier, signInWithPhoneNumber } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
 
+        // 🌟 REAL CONFIGURATION PARAMS CONNECTED
         const firebaseConfig = {
             apiKey: "AIzaSyDQAcqvewHftBqWN8Kzn1tTHVihQi_UC7w",
             authDomain: "gyantuner-c7919.firebaseapp.com",
@@ -409,4 +409,4 @@
                 const verifier = window.recaptchaVerifier;
 
                 signInWithPhoneNumber(auth, phoneStr, verifier)
-         
+                    .then((confirmatio
