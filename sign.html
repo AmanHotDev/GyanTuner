@@ -316,7 +316,6 @@
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
         import { getAuth, signInWithPopup, GoogleAuthProvider, signInWithEmailAndPassword, createUserWithEmailAndPassword, RecaptchaVerifier, signInWithPhoneNumber } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
 
-        // 🌟 REAL CONFIGURATION PARAMS CONNECTED
         const firebaseConfig = {
             apiKey: "AIzaSyDQAcqvewHftBqWN8Kzn1tTHVihQi_UC7w",
             authDomain: "gyantuner-c7919.firebaseapp.com",
@@ -409,4 +408,60 @@
                 const verifier = window.recaptchaVerifier;
 
                 signInWithPhoneNumber(auth, phoneStr, verifier)
-                    .then((confirmatio
+                    .then((confirmationResult) => {
+                        phoneVerificationToken = confirmationResult;
+                        document.getElementById('otpInputGroup').style.display = 'flex';
+                        executionBtn.innerText = "Confirm Access Key 🚀";
+                    }).catch((error) => { alert("SMS fail: " + error.message); });
+            } else {
+                const trackingCode = document.getElementById('otpInput').value;
+                phoneVerificationToken.confirm(trackingCode)
+                    .then(() => window.location.href = "dashboard.html")
+                    .catch(() => alert("Token key error."));
+            }
+        }
+    </script>
+
+    <script>
+        window.addEventListener('mousemove', (e) => {
+            const pupils = document.querySelectorAll('.pupil-dark-dot');
+            const faceLayer = document.getElementById('liveFaceLayer');
+            
+            pupils.forEach((pupil) => {
+                const parentBox = pupil.parentElement.getBoundingClientRect();
+                const eyeX = parentBox.left + parentBox.width / 2;
+                const eyeY = parentBox.top + parentBox.height / 2;
+                
+                const relativeAngle = Math.atan2(e.clientY - eyeY, e.clientX - eyeX);
+                const travelDistance = Math.min(8, Math.hypot(e.clientX - eyeX, e.clientY - eyeY) / 32);
+                
+                const pupilShiftX = Math.cos(relativeAngle) * travelDistance;
+                const pupilShiftY = Math.sin(relativeAngle) * travelDistance;
+                pupil.style.transform = `translate(${pupilShiftX}px, ${pupilShiftY}px)`;
+            });
+
+            if(faceLayer) {
+                const bodyContainer = faceLayer.parentElement.getBoundingClientRect();
+                const bodyCenterX = bodyContainer.left + bodyContainer.width / 2;
+                const bodyCenterY = bodyContainer.top + bodyContainer.height / 2;
+                
+                const faceShiftX = (e.clientX - bodyCenterX) / 48;
+                const faceShiftY = (e.clientY - bodyCenterY) / 52;
+                
+                faceLayer.style.transform = `translate(${faceShiftX}px, ${faceShiftY}px)`;
+            }
+        });
+
+        // 🌟 URL Parser: Isse index page se login ya signup mode automatic switch ho jayega!
+        window.addEventListener('DOMContentLoaded', () => {
+            const urlParams = new URLSearchParams(window.location.search);
+            const mode = urlParams.get('mode');
+            if (mode === 'signin') {
+                switchAuthFlowMode('signin');
+            } else {
+                switchAuthFlowMode('signup');
+            }
+        });
+    </script>
+</body>
+</html>
